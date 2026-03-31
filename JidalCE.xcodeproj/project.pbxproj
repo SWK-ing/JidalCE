@@ -34,6 +34,12 @@
 			children = (
 				B72230602F7C69A5000401F5 /* JidalCE */,
 				B722305F2F7C69A5000401F5 /* Products */,
+				B72230702F7C6A6B000401F5 /* App */,
+				B72230712F7C6A6C000401F5 /* Data */,
+				B72230722F7C6A6C000401F5 /* Services */,
+				B72230732F7C6A6D000401F5 /* Support */,
+				B72230742F7C6A72000401F5 /* Domain */,
+				B72230752F7C6A73000401F5 /* Features */,
 			);
 			sourceTree = "<group>";
 		};
@@ -43,6 +49,136 @@
 				B722305E2F7C69A5000401F5 /* JidalCE.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B72230702F7C6A6B000401F5 /* App */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		B72230712F7C6A6C000401F5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		B72230722F7C6A6C000401F5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		B72230732F7C6A6D000401F5 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		B72230742F7C6A72000401F5 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				B72230772F7C6A79000401F5 /* Models */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		B72230752F7C6A73000401F5 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				B72230762F7C6A73000401F5 /* Shared */,
+				B72230782F7C6A79000401F5 /* Onboarding */,
+				B72230792F7C6A7A000401F5 /* Calendar */,
+				B722307A2F7C6A7A000401F5 /* TransactionList */,
+				B722307B2F7C6A7B000401F5 /* AddTransaction */,
+				B722307C2F7C6A7B000401F5 /* Statistics */,
+				B722307D2F7C6A7B000401F5 /* Settings */,
+				B722318E2F7C72BC000401F5 /* Voice */,
+				B722318F2F7C72BC000401F5 /* SMS */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		B72230762F7C6A73000401F5 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				B722307E2F7C6A7B000401F5 /* Components */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		B72230772F7C6A79000401F5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B72230782F7C6A79000401F5 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		B72230792F7C6A7A000401F5 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		B722307A2F7C6A7A000401F5 /* TransactionList */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TransactionList;
+			sourceTree = "<group>";
+		};
+		B722307B2F7C6A7B000401F5 /* AddTransaction */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AddTransaction;
+			sourceTree = "<group>";
+		};
+		B722307C2F7C6A7B000401F5 /* Statistics */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Statistics;
+			sourceTree = "<group>";
+		};
+		B722307D2F7C6A7B000401F5 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		B722307E2F7C6A7B000401F5 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B722318E2F7C72BC000401F5 /* Voice */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Voice;
+			sourceTree = "<group>";
+		};
+		B722318F2F7C72BC000401F5 /* SMS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SMS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -178,7 +314,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -236,7 +372,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -256,6 +392,9 @@
 				DEVELOPMENT_TEAM = 27CM6797KC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "가계부 데이터를 캘린더 이벤트로 저장하고, 공유 캘린더를 통해 다른 가족 구성원과 함께 사용합니다.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "음성으로 거래를 기록하기 위해 마이크를 사용합니다.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "음성으로 거래를 기록하기 위해 음성 인식을 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -266,7 +405,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.shinooya.JidalCE;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JidalCE.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -288,6 +427,9 @@
 				DEVELOPMENT_TEAM = 27CM6797KC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "가계부 데이터를 캘린더 이벤트로 저장하고, 공유 캘린더를 통해 다른 가족 구성원과 함께 사용합니다.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "음성으로 거래를 기록하기 위해 마이크를 사용합니다.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "음성으로 거래를 기록하기 위해 음성 인식을 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -298,7 +440,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.shinooya.JidalCE;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JidalCE.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
