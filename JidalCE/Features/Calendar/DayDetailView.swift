@@ -7,31 +7,35 @@ struct DayDetailView: View {
     var body: some View {
         if transactions.isEmpty {
             EmptyStateView(title: "거래 없음", message: "선택한 날짜에 등록된 거래가 없습니다.", systemImage: "tray")
-                .frame(height: 180)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         } else {
-            VStack(alignment: .leading, spacing: 8) {
-                ForEach(transactions) { transaction in
-                    Button {
-                        onSelect?(transaction)
-                    } label: {
-                        HStack {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(transaction.memo)
-                                Text("\(transaction.category) · \(transaction.time) · \(transaction.by)")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 8) {
+                    ForEach(transactions) { transaction in
+                        Button {
+                            onSelect?(transaction)
+                        } label: {
+                            HStack(alignment: .top) {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(transaction.memo)
+                                    Text("\(transaction.category) · \(transaction.time) · \(transaction.by)")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                Spacer(minLength: 12)
+                                Text(transaction.amount.signedWonString)
+                                    .foregroundStyle(transaction.amount > 0 ? .blue : .red)
                             }
-                            Spacer()
-                            Text(transaction.amount.signedWonString)
-                                .foregroundStyle(transaction.amount > 0 ? .blue : .red)
+                            .padding(.vertical, 6)
                         }
-                        .padding(.vertical, 6)
+                        .buttonStyle(.plain)
+                        Divider()
                     }
-                    .buttonStyle(.plain)
-                    Divider()
                 }
+                .padding(.horizontal)
+                .frame(maxWidth: .infinity, alignment: .topLeading)
             }
-            .padding(.horizontal)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
     }
 }

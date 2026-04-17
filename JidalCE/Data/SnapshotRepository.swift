@@ -41,7 +41,8 @@ struct SnapshotRepository {
     func latestSnapshot(before date: Date, ledgerName: String, in group: JidalGroup) throws -> MonthlySnapshot? {
         let calendar = try calendar(for: group)
         let endDate = Calendar.current.date(byAdding: .second, value: -1, to: date) ?? date
-        return store.fetchEvents(from: Date.distantPast, to: endDate, calendar: calendar)
+        let startDate = Calendar.current.date(byAdding: .year, value: -10, to: endDate)?.startOfDay ?? endDate.startOfDay
+        return store.fetchEvents(from: startDate, to: endDate, calendar: calendar)
             .filter { $0.title == "__snapshot_\(ledgerName)__" }
             .compactMap(parseSnapshot)
             .sorted { $0.yearMonth < $1.yearMonth }
@@ -49,8 +50,13 @@ struct SnapshotRepository {
     }
 
     func latestSnapshot(for yearMonth: String, ledgerName: String, in group: JidalGroup) -> MonthlySnapshot? {
-        guard let calendar = try? calendar(for: group) else { return nil }
-        return store.fetchEvents(from: Date.distantPast, to: Date.distantFuture, calendar: calendar)
+        guard
+            let calendar = try? calendar(for: group),
+            let monthDate = yearMonth.firstDateFromYearMonth
+        else { return nil }
+
+        let snapshotDate = monthDate.addingMonth(1).startOfMonth
+        return store.fetchEvents(from: snapshotDate.startOfDay, to: snapshotDate.endOfDay, calendar: calendar)
             .filter { $0.title == "__snapshot_\(ledgerName)__" }
             .compactMap(parseSnapshot)
             .first(where: { $0.yearMonth == yearMonth })
@@ -58,7 +64,8 @@ struct SnapshotRepository {
 
     func detectFirstRecordDate(in group: JidalGroup) -> Date? {
         guard let calendar = try? calendar(for: group) else { return nil }
-        return store.fetchEvents(from: Date.distantPast, to: Date.distantFuture, calendar: calendar)
+        let startDate = Calendar.current.date(byAdding: .year, value: -10, to: Date())?.startOfDay ?? Date().startOfDay
+        return store.fetchEvents(from: startDate, to: Date().endOfDay, calendar: calendar)
             .filter { !store.isSystemEventTitle($0.title) && store.isJidalEvent($0) }
             .map(\.startDate)
             .min()
@@ -66,7 +73,11 @@ struct SnapshotRepository {
 
     private func createSnapshot(for month: Date, ledgerName: String, in group: JidalGroup) throws {
         let calendar = try calendar(for: group)
-        let previous = try latestSnapshot(before: month, ledgerName: ledgerName, in: group)
+        let previous = try latestSnapshot(
+            before: month.addingMonth(1).startOfMonth,
+            ledgerName: ledgerName,
+            in: group
+        )
         let carryOver = previous?.closingBalance ?? 0
         let transactions = try transactionRepository.fetchTransactions(from: month.startOfMonth, to: month.endOfMonth, ledgerName: ledgerName, group: group)
         let income = transactions.filter { $0.amount > 0 }.reduce(0) { $0 + $1.amount }
@@ -93,7 +104,8 @@ struct SnapshotRepository {
     }
 
     private func existingSnapshotEvent(for month: Date, ledgerName: String, calendar: EKCalendar) -> EKEvent? {
-        store.fetchEvents(from: month.addingMonth(1).startOfMonth, to: month.addingMonth(1).endOfMonth, calendar: calendar)
+        let snapshotDate = month.addingMonth(1).startOfMonth
+        return store.fetchEvents(from: snapshotDate.startOfDay, to: snapshotDate.endOfDay, calendar: calendar)
             .first { $0.title == "__snapshot_\(ledgerName)__" }
     }
 

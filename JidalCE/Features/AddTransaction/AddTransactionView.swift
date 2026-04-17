@@ -3,30 +3,29 @@ import SwiftUI
 struct AddTransactionView: View {
     @Environment(\.dismiss) private var dismiss
     @Bindable var viewModel: AddTransactionViewModel
-    @State private var showingVoiceInput = false
-    @State private var showingSMSInput = false
 
     var body: some View {
         NavigationStack {
             Form {
-                Section("입력 방법") {
-                    HStack {
-                        Button("🎙 음성") {
-                            showingVoiceInput = true
-                        }
-                        .disabled(!viewModel.appState.aiService.isConfigured)
-
-                        Button("💬 SMS") {
-                            showingSMSInput = true
-                        }
-                        .disabled(!viewModel.appState.aiService.isConfigured)
-                    }
-                }
-
                 if !viewModel.appState.ledgers.isEmpty {
-                    Picker("가계부", selection: $viewModel.draft.ledgerName) {
+                    Menu {
                         ForEach(viewModel.appState.ledgers) { ledger in
-                            Text("\(ledger.icon) \(ledger.name)").tag(ledger.name)
+                            Button {
+                                viewModel.draft.ledgerName = ledger.name
+                            } label: {
+                                LedgerLabelView(name: ledger.name, icon: ledger.icon)
+                            }
+                        }
+                    } label: {
+                        HStack {
+                            Text("가계부")
+                            Spacer()
+                            if let selectedLedger = viewModel.appState.ledgers.first(where: { $0.name == viewModel.draft.ledgerName }) {
+                                LedgerLabelView(name: selectedLedger.name, icon: selectedLedger.icon)
+                            } else {
+                                Text("선택")
+                                    .foregroundStyle(.secondary)
+                            }
                         }
                     }
                 }
@@ -67,16 +66,6 @@ struct AddTransactionView: View {
                     }
                     .disabled(viewModel.draft.memo.isEmpty || viewModel.draft.amountText.isEmpty || viewModel.draft.ledgerName.isEmpty)
                 }
-            }
-        }
-        .sheet(isPresented: $showingVoiceInput) {
-            VoiceInputView { result in
-                viewModel.applyParsedResult(result)
-            }
-        }
-        .sheet(isPresented: $showingSMSInput) {
-            SMSInputView { result in
-                viewModel.applyParsedResult(result)
             }
         }
     }

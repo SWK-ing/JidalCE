@@ -11,7 +11,7 @@ import SwiftUI
 @main
 struct JidalCEWidgetBundle: WidgetBundle {
     var body: some Widget {
-        JidalCEWidget()
-        JidalCEWidgetControl()
+        JidalCESmallWidget()
+        JidalCEMediumWidget()
     }
 }

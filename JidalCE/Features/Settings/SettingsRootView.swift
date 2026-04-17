@@ -24,6 +24,8 @@ struct SettingsRootView: View {
                 NavigationLink("장부정리") { BookClosingView() }
                 NavigationLink("예산 관리") { BudgetSettingsView() }
                 NavigationLink("AI 설정") { AISettingsView() }
+                NavigationLink("프롬프트 편집") { PromptSettingsView() }
+                NavigationLink("거래 검색") { TransactionSearchView() }
             }
 
             Section("카테고리") {

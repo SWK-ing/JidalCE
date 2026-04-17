@@ -33,7 +33,9 @@ final class AppState {
     let categoryManager = CategoryManager()
     let budgetManager = BudgetManager()
     let aiService = AIService()
+    let promptSettingsManager = PromptSettingsManager()
     private let ledgerOrderManager = LedgerOrderManager()
+    private let widgetSyncManager = WidgetSyncManager()
 
     private let calendarStore: CalendarStore
     private let groupRepository: GroupRepository
@@ -108,6 +110,7 @@ final class AppState {
             route = .main
             await reloadMainData()
         } else {
+            widgetSyncManager.clear()
             route = availableGroups.isEmpty ? .groupSetup : .groupSetup
         }
     }
@@ -168,23 +171,25 @@ final class AppState {
                 )
                 recentMonthlyFlows = try buildMonthlyFlowData(ledgerName: ledgerName, group: group)
                 refreshBudget()
+                syncWidgetData(group: group, ledgerName: ledgerName)
             } else {
                 monthTransactions = []
                 recentHistory = []
                 currentBalance = 0
                 recentMonthlyFlows = []
                 budgetProgress = []
+                widgetSyncManager.clear()
             }
         } catch {
             errorMessage = error.localizedDescription
         }
     }
 
-    func addLedger(name: String, icon: String, color: String) async {
+    func addLedger(name: String, icon: String, color: String, currency: String) async {
         guard let group = selectedGroup else { return }
         do {
             try ledgerRepository.saveLedger(
-                Ledger(name: name, icon: icon, color: color, currency: "KRW", sortOrder: ledgers.count),
+                Ledger(name: name, icon: icon, color: color, currency: currency, sortOrder: ledgers.count),
                 in: group
             )
             selectedLedgerName = name
@@ -328,6 +333,7 @@ final class AppState {
             try groupRepository.deleteGroup(group)
             selectedGroup = nil
             selectedLedgerName = nil
+            widgetSyncManager.clear()
             await loadGroupsAndRoute()
         } catch {
             errorMessage = error.localizedDescription
@@ -402,6 +408,11 @@ final class AppState {
         Date().addingMonth(-2).yearMonthDisplayText
     }
 
+    func searchTransactions(query: String) -> [Transaction] {
+        guard let group = selectedGroup, let ledgerName = selectedLedgerName else { return [] }
+        return (try? transactionRepository.searchTransactions(query: query, ledgerName: ledgerName, group: group)) ?? []
+    }
+
     private func buildMonthlyFlowData(ledgerName: String, group: JidalGroup) throws -> [MonthlyFlowData] {
         try stride(from: 5, through: 0, by: -1).map { offset in
             let monthDate = currentMonth.addingMonth(-offset).startOfMonth
@@ -427,5 +438,20 @@ final class AppState {
     private func reloadAfterExternalChange() async {
         guard route == .main else { return }
         await reloadMainData()
+    }
+
+    private func syncWidgetData(group: JidalGroup, ledgerName: String) {
+        let ledgerIcon = ledgers.first(where: { $0.name == ledgerName })?.icon ?? "wonsign.circle.fill"
+        let liveBalance = (try? balanceCalculator.currentBalance(
+            ledgerName: ledgerName,
+            in: group,
+            anchorDate: Date()
+        )) ?? currentBalance
+        widgetSyncManager.update(
+            groupID: group.id,
+            ledgerName: ledgerName,
+            ledgerIcon: ledgerIcon,
+            balance: liveBalance
+        )
     }
 }

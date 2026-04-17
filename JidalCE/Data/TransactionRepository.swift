@@ -4,6 +4,7 @@ import Foundation
 struct TransactionRepository {
     private let store: CalendarStore
     private let historyRepository: HistoryRepository
+    private let widgetSyncManager = WidgetSyncManager()
 
     init(store: CalendarStore, historyRepository: HistoryRepository) {
         self.store = store
@@ -32,6 +33,7 @@ struct TransactionRepository {
         refreshedEvent.notes = NoteSerializer.serialize(records: records)
         try store.eventStore.save(refreshedEvent, span: .thisEvent, commit: true)
         try historyRepository.appendEntry(for: savedTransaction, action: .added, in: group)
+        try syncWidgetData(for: savedTransaction.ledgerName, group: group)
     }
 
     func updateTransaction(original: Transaction, updated: Transaction, in group: JidalGroup) throws {
@@ -72,6 +74,7 @@ struct TransactionRepository {
         }
 
         try historyRepository.appendEntry(for: updated, action: .modified, previousAmount: previousAmount, in: group)
+        try syncWidgetData(for: updated.ledgerName, group: group)
     }
 
     func deleteTransaction(_ transaction: Transaction, in group: JidalGroup, addHistory: Bool = true) throws {
@@ -91,10 +94,18 @@ struct TransactionRepository {
         if addHistory {
             try historyRepository.appendEntry(for: transaction, action: .deleted, in: group)
         }
+        try syncWidgetData(for: transaction.ledgerName, group: group)
     }
 
     func fetchTransactions(inMonth month: Date, ledgerName: String, group: JidalGroup) throws -> [Transaction] {
         try fetchTransactions(from: month.startOfMonth, to: month.endOfMonth, ledgerName: ledgerName, group: group)
+    }
+
+    func searchTransactions(query: String, ledgerName: String, group: JidalGroup, months: Int = 6) throws -> [Transaction] {
+        let start = Date().addingMonth(-months + 1).startOfMonth
+        return try fetchTransactions(from: start, to: Date().endOfDay, ledgerName: ledgerName, group: group)
+            .filter { $0.memo.localizedCaseInsensitiveContains(query) }
+            .sortedByDateTimeDescending()
     }
 
     func fetchTransactions(from start: Date, to end: Date, ledgerName: String, group: JidalGroup) throws -> [Transaction] {
@@ -176,5 +187,27 @@ struct TransactionRepository {
             throw JidalDataError.calendarNotFound
         }
         return calendar
+    }
+
+    private func syncWidgetData(for ledgerName: String, group: JidalGroup) throws {
+        let snapshotRepository = SnapshotRepository(store: store, transactionRepository: self)
+        let balanceCalculator = BalanceCalculator(
+            transactionRepository: self,
+            snapshotRepository: snapshotRepository
+        )
+        let ledgerRepository = LedgerRepository(store: store)
+        let ledgerIcon = try ledgerRepository.fetchLedgers(in: group)
+            .first(where: { $0.name == ledgerName })?.icon ?? "wonsign.circle.fill"
+        let balance = try balanceCalculator.currentBalance(
+            ledgerName: ledgerName,
+            in: group,
+            anchorDate: Date()
+        )
+        widgetSyncManager.update(
+            groupID: group.id,
+            ledgerName: ledgerName,
+            ledgerIcon: ledgerIcon,
+            balance: balance
+        )
     }
 }

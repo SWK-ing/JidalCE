@@ -1,4 +1,41 @@
 import Foundation
+import SwiftUI
+
+let ledgerIcons = [
+    "wonsign.circle.fill",
+    "house.fill",
+    "airplane",
+    "car.fill",
+    "graduationcap.fill",
+    "cross.case.fill",
+    "cart.fill",
+    "figure.and.child.holdinghands",
+    "pawprint.fill",
+    "gamecontroller.fill",
+    "iphone",
+    "creditcard.fill",
+    "banknote.fill",
+    "gift.fill",
+    "cup.and.saucer.fill",
+    "fork.knife"
+]
+
+let supportedLedgerCurrencies = ["KRW", "USD", "JPY", "EUR", "CNY", "IDR", "PHP", "SGD", "VND", "THB"]
+
+private let legacyLedgerIconMap = [
+    "💰": "wonsign.circle.fill",
+    "🏠": "house.fill",
+    "✈️": "airplane",
+    "🚗": "car.fill",
+    "🎓": "graduationcap.fill",
+    "💊": "cross.case.fill",
+    "🛒": "cart.fill",
+    "👶": "figure.and.child.holdinghands",
+    "🐶": "pawprint.fill",
+    "🎮": "gamecontroller.fill",
+    "📱": "iphone",
+    "💳": "creditcard.fill"
+]
 
 extension Int {
     var wonString: String {
@@ -68,6 +105,12 @@ extension Date {
         formatter.dateFormat = "M월 d일 (E)"
         return formatter.string(from: self)
     }
+    var monthDayDisplayText: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.dateFormat = "M월 d일"
+        return formatter.string(from: self)
+    }
 
     func addingMonth(_ months: Int) -> Date {
         Calendar.current.date(byAdding: .month, value: months, to: self) ?? self
@@ -82,6 +125,10 @@ extension Date {
 }
 
 extension String {
+    var migratedLedgerIconName: String {
+        legacyLedgerIconMap[self] ?? self
+    }
+
     var firstDateFromYearMonth: Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM"
@@ -109,6 +156,31 @@ extension Array where Element == Transaction {
                 return $0.date > $1.date
             }
             return $0.time > $1.time
+        }
+    }
+}
+
+struct LedgerIconView: View {
+    let icon: String
+    var color: Color = .secondary
+
+    var body: some View {
+        Image(systemName: icon.migratedLedgerIconName)
+            .foregroundStyle(color)
+    }
+}
+
+struct LedgerLabelView: View {
+    let name: String
+    let icon: String
+    var iconColor: Color = .secondary
+    var textColor: Color = .primary
+
+    var body: some View {
+        HStack(spacing: 6) {
+            LedgerIconView(icon: icon, color: iconColor)
+            Text(name)
+                .foregroundStyle(textColor)
         }
     }
 }

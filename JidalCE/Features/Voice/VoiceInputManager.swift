@@ -9,6 +9,7 @@ final class VoiceInputManager {
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
     private var request: SFSpeechAudioBufferRecognitionRequest?
+    private var isFinishingRecognition = false
 
     var transcribedText = ""
     var isRecording = false
@@ -38,6 +39,7 @@ final class VoiceInputManager {
         audioEngine.prepare()
         try audioEngine.start()
         isRecording = true
+        isFinishingRecognition = false
         transcribedText = ""
 
         recognitionTask = speechRecognizer?.recognitionTask(with: request) { [weak self] result, error in
@@ -49,19 +51,28 @@ final class VoiceInputManager {
             }
             if error != nil || (result?.isFinal ?? false) {
                 Task { @MainActor in
-                    self.stopRecording()
+                    self.finishRecognition()
                 }
             }
         }
     }
 
     func stopRecording() {
+        guard isRecording || isFinishingRecognition else { return }
         audioEngine.stop()
         request?.endAudio()
+        audioEngine.inputNode.removeTap(onBus: 0)
+        isRecording = false
+        isFinishingRecognition = true
+    }
+
+    private func finishRecognition() {
+        audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
         recognitionTask?.cancel()
         recognitionTask = nil
         request = nil
         isRecording = false
+        isFinishingRecognition = false
     }
 }

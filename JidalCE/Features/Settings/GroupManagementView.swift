@@ -20,6 +20,11 @@ struct GroupManagementView: View {
                         showingDeleteAlert = true
                     }
                 }
+                Section("공유") {
+                    NavigationLink("캘린더 공유 안내") {
+                        SharingGuideView(groupName: group.name)
+                    }
+                }
             }
             Section("공유 안내") {
                 Text("설정 > 캘린더에서 해당 캘린더를 공유하면 다른 가족 구성원과 함께 사용할 수 있습니다.")

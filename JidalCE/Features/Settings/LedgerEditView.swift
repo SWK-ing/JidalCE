@@ -1,7 +1,5 @@
 import SwiftUI
 
-let ledgerIcons = ["💰", "🏠", "✈️", "🚗", "🎓", "💊", "🛒", "👶", "🐶", "🎮", "📱", "💳"]
-
 enum LedgerColor: String, CaseIterable {
     case red, orange, yellow, green, blue, purple, pink
 
@@ -38,9 +36,23 @@ struct LedgerEditView: View {
             Form {
                 TextField("이름", text: $name)
 
-                Picker("아이콘", selection: $icon) {
-                    ForEach(ledgerIcons, id: \.self) { icon in
-                        Text(icon).tag(icon)
+                Section("아이콘") {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4), spacing: 16) {
+                        ForEach(availableIcons, id: \.self) { iconOption in
+                            Button {
+                                icon = iconOption
+                            } label: {
+                                LedgerIconView(icon: iconOption, color: icon.migratedLedgerIconName == iconOption ? .accentColor : .secondary)
+                                    .font(.title2)
+                                    .frame(maxWidth: .infinity, minHeight: 44)
+                                    .padding(.vertical, 8)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(icon.migratedLedgerIconName == iconOption ? Color.accentColor.opacity(0.15) : Color(.secondarySystemBackground))
+                                    )
+                            }
+                            .buttonStyle(.plain)
+                        }
                     }
                 }
 
@@ -71,5 +83,13 @@ struct LedgerEditView: View {
                 }
             }
         }
+    }
+
+    private var availableIcons: [String] {
+        let currentIcon = icon.migratedLedgerIconName
+        if currentIcon.isEmpty || ledgerIcons.contains(currentIcon) {
+            return ledgerIcons
+        }
+        return [currentIcon] + ledgerIcons
     }
 }

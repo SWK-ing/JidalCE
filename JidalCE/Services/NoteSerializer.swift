@@ -39,8 +39,8 @@ enum NoteSerializer {
         let incomeCount = records.filter { $0.amount >= 0 }.count
         let incomeTotal = records.filter { $0.amount > 0 }.reduce(0) { $0 + $1.amount }
         let summaryParts = [
-            expenseCount > 0 ? "지출 \(expenseTotal.wonString) (\(expenseCount)건)" : nil,
-            incomeCount > 0 ? "수입 \(incomeTotal.wonString) (\(incomeCount)건)" : nil
+            expenseCount > 0 ? "지출 \(formattedAmount(expenseTotal))원 (\(expenseCount)건)" : nil,
+            incomeCount > 0 ? "수입 \(formattedAmount(incomeTotal))원 (\(incomeCount)건)" : nil
         ].compactMap { $0 }
         lines.append(summaryParts.isEmpty ? "거래 없음" : summaryParts.joined(separator: " · "))
         lines.append(separator)

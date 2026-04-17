@@ -6,14 +6,80 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B722324A2F7C7ACE000401F5 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B72232492F7C7ACE000401F5 /* WidgetKit.framework */; };
+		B722324C2F7C7ACE000401F5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B722324B2F7C7ACE000401F5 /* SwiftUI.framework */; };
+		B72232592F7C7AD0000401F5 /* JidalCEWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B72232472F7C7ACE000401F5 /* JidalCEWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B72232572F7C7AD0000401F5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B72230562F7C69A5000401F5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B72232462F7C7ACE000401F5;
+			remoteInfo = JidalCEWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B722325E2F7C7AD0000401F5 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B72232592F7C7AD0000401F5 /* JidalCEWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		B722305E2F7C69A5000401F5 /* JidalCE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JidalCE.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B72232472F7C7ACE000401F5 /* JidalCEWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = JidalCEWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B72232492F7C7ACE000401F5 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		B722324B2F7C7ACE000401F5 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		B72232602F7C7B6F000401F5 /* JidalCEWidgetExtensionRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JidalCEWidgetExtensionRelease.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B722325A2F7C7AD0000401F5 /* Exceptions for "JidalCEWidget" folder in "JidalCEWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B72232462F7C7ACE000401F5 /* JidalCEWidgetExtension */;
+		};
+		B72232622F7C7C8B000401F5 /* Exceptions for "JidalCE" folder in "JidalCEWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Data/CalendarStore.swift,
+				Domain/Models/Ledger.swift,
+				Domain/Models/MonthlySnapshot.swift,
+				Domain/Models/Transaction.swift,
+				Services/NoteSerializer.swift,
+			);
+			target = B72232462F7C7ACE000401F5 /* JidalCEWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B72230602F7C69A5000401F5 /* JidalCE */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B72232622F7C7C8B000401F5 /* Exceptions for "JidalCE" folder in "JidalCEWidgetExtension" target */,
+			);
 			path = JidalCE;
+			sourceTree = "<group>";
+		};
+		B722324D2F7C7ACE000401F5 /* JidalCEWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B722325A2F7C7AD0000401F5 /* Exceptions for "JidalCEWidget" folder in "JidalCEWidgetExtension" target */,
+			);
+			path = JidalCEWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -26,13 +92,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B72232442F7C7ACE000401F5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B722324C2F7C7ACE000401F5 /* SwiftUI.framework in Frameworks */,
+				B722324A2F7C7ACE000401F5 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		B72230552F7C69A5000401F5 = {
 			isa = PBXGroup;
 			children = (
+				B72232602F7C7B6F000401F5 /* JidalCEWidgetExtensionRelease.entitlements */,
 				B72230602F7C69A5000401F5 /* JidalCE */,
+				B722324D2F7C7ACE000401F5 /* JidalCEWidget */,
+				B72232482F7C7ACE000401F5 /* Frameworks */,
 				B722305F2F7C69A5000401F5 /* Products */,
 				B72230702F7C6A6B000401F5 /* App */,
 				B72230712F7C6A6C000401F5 /* Data */,
@@ -40,6 +118,7 @@
 				B72230732F7C6A6D000401F5 /* Support */,
 				B72230742F7C6A72000401F5 /* Domain */,
 				B72230752F7C6A73000401F5 /* Features */,
+				B72232312F7C7740000401F5 /* Intents */,
 			);
 			sourceTree = "<group>";
 		};
@@ -47,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				B722305E2F7C69A5000401F5 /* JidalCE.app */,
+				B72232472F7C7ACE000401F5 /* JidalCEWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -99,6 +179,8 @@
 				B722307D2F7C6A7B000401F5 /* Settings */,
 				B722318E2F7C72BC000401F5 /* Voice */,
 				B722318F2F7C72BC000401F5 /* SMS */,
+				B722322F2F7C7740000401F5 /* Sharing */,
+				B72232302F7C7740000401F5 /* Search */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -181,6 +263,36 @@
 			path = SMS;
 			sourceTree = "<group>";
 		};
+		B722322F2F7C7740000401F5 /* Sharing */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sharing;
+			sourceTree = "<group>";
+		};
+		B72232302F7C7740000401F5 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		B72232312F7C7740000401F5 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
+		B72232482F7C7ACE000401F5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B72232492F7C7ACE000401F5 /* WidgetKit.framework */,
+				B722324B2F7C7ACE000401F5 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -191,10 +303,12 @@
 				B722305A2F7C69A5000401F5 /* Sources */,
 				B722305B2F7C69A5000401F5 /* Frameworks */,
 				B722305C2F7C69A5000401F5 /* Resources */,
+				B722325E2F7C7AD0000401F5 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B72232582F7C7AD0000401F5 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				B72230602F7C69A5000401F5 /* JidalCE */,
@@ -205,6 +319,28 @@
 			productName = JidalCE;
 			productReference = B722305E2F7C69A5000401F5 /* JidalCE.app */;
 			productType = "com.apple.product-type.application";
+		};
+		B72232462F7C7ACE000401F5 /* JidalCEWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B722325B2F7C7AD0000401F5 /* Build configuration list for PBXNativeTarget "JidalCEWidgetExtension" */;
+			buildPhases = (
+				B72232432F7C7ACE000401F5 /* Sources */,
+				B72232442F7C7ACE000401F5 /* Frameworks */,
+				B72232452F7C7ACE000401F5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B722324D2F7C7ACE000401F5 /* JidalCEWidget */,
+			);
+			name = JidalCEWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = JidalCEWidgetExtension;
+			productReference = B72232472F7C7ACE000401F5 /* JidalCEWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -217,6 +353,9 @@
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					B722305D2F7C69A5000401F5 = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					B72232462F7C7ACE000401F5 = {
 						CreatedOnToolsVersion = 26.3;
 					};
 				};
@@ -236,12 +375,20 @@
 			projectRoot = "";
 			targets = (
 				B722305D2F7C69A5000401F5 /* JidalCE */,
+				B72232462F7C7ACE000401F5 /* JidalCEWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		B722305C2F7C69A5000401F5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B72232452F7C7ACE000401F5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -258,7 +405,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B72232432F7C7ACE000401F5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B72232582F7C7AD0000401F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B72232462F7C7ACE000401F5 /* JidalCEWidgetExtension */;
+			targetProxy = B72232572F7C7AD0000401F5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		B72230672F7C69A7000401F5 /* Debug */ = {
@@ -422,6 +584,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = JidalCE/JidalCERelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 27CM6797KC;
@@ -452,6 +615,69 @@
 			};
 			name = Release;
 		};
+		B722325C2F7C7AD0000401F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 27CM6797KC;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JidalCEWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = JidalCEWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JidalCE.app.JidalCEWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B722325D2F7C7AD0000401F5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = JidalCEWidgetExtensionRelease.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 27CM6797KC;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JidalCEWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = JidalCEWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JidalCE.app.JidalCEWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -469,6 +695,15 @@
 			buildConfigurations = (
 				B722306A2F7C69A7000401F5 /* Debug */,
 				B722306B2F7C69A7000401F5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B722325B2F7C7AD0000401F5 /* Build configuration list for PBXNativeTarget "JidalCEWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B722325C2F7C7AD0000401F5 /* Debug */,
+				B722325D2F7C7AD0000401F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

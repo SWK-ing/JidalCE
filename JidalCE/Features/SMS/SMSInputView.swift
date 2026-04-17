@@ -19,22 +19,19 @@ struct SMSInputView: View {
                 Button("파싱하기") {
                     Task {
                         do {
-                            parsedResult = try await appState.aiService.parseSMSInput(smsText)
-                        } catch {
-                            errorMessage = error.localizedDescription
-                        }
-                    }
+                    parsedResult = try await appState.aiService.parseSMSInput(smsText)
+                    onApply(parsedResult!)
+                    dismiss()
+                } catch {
+                    errorMessage = error.localizedDescription
                 }
+            }
+        }
                 .buttonStyle(.borderedProminent)
                 .disabled(smsText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !appState.aiService.isConfigured)
 
                 if let parsedResult {
                     ParsedSMSResultCard(result: parsedResult)
-                    Button("폼에 적용") {
-                        onApply(parsedResult)
-                        dismiss()
-                    }
-                    .buttonStyle(.borderedProminent)
                 }
 
                 Spacer()

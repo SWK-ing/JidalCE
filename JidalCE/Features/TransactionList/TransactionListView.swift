@@ -2,8 +2,8 @@ import SwiftUI
 
 struct TransactionListView: View {
     @Bindable var viewModel: TransactionListViewModel
-    @State private var showingAddSheet = false
     @State private var editingTransaction: Transaction?
+    @State private var searchText = ""
 
     var body: some View {
         List {
@@ -26,7 +26,7 @@ struct TransactionListView: View {
                 }
             }
 
-            if viewModel.appState.monthTransactions.isEmpty {
+            if filteredTransactions.isEmpty {
                 EmptyStateView(title: "거래 없음", message: "추가 버튼으로 첫 거래를 등록하세요.", systemImage: "won.sign")
                     .frame(height: 260)
                     .listRowSeparator(.hidden)
@@ -62,30 +62,24 @@ struct TransactionListView: View {
                 }
             }
         }
-        .overlay(alignment: .bottomTrailing) {
-            Button {
-                showingAddSheet = true
-            } label: {
-                Image(systemName: "plus")
-                    .font(.title2.bold())
-                    .foregroundStyle(.white)
-                    .padding()
-                    .background(Color.blue, in: Circle())
-                    .shadow(radius: 10, y: 6)
-            }
-            .padding()
-        }
-        .sheet(isPresented: $showingAddSheet) {
-            AddTransactionView(viewModel: AddTransactionViewModel(appState: viewModel.appState))
-        }
         .sheet(item: $editingTransaction) { transaction in
             AddTransactionView(viewModel: AddTransactionViewModel(appState: viewModel.appState, editingTransaction: transaction))
         }
+        .searchable(text: $searchText, prompt: "거래 검색")
     }
 
     private func groupedTransactions() -> [(date: Date, transactions: [Transaction])] {
-        Dictionary(grouping: viewModel.appState.monthTransactions, by: { $0.date.startOfDay })
+        Dictionary(grouping: filteredTransactions, by: { $0.date.startOfDay })
             .map { ($0.key, $0.value.sortedByDateTimeDescending()) }
             .sorted { $0.0 > $1.0 }
+    }
+
+    private var filteredTransactions: [Transaction] {
+        guard !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return viewModel.appState.monthTransactions
+        }
+        return viewModel.appState.monthTransactions.filter {
+            $0.memo.localizedCaseInsensitiveContains(searchText)
+        }
     }
 }

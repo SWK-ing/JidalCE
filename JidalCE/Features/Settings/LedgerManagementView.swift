@@ -3,19 +3,41 @@ import SwiftUI
 struct LedgerManagementView: View {
     @Environment(AppState.self) private var appState
     @State private var name = ""
-    @State private var icon = "💰"
+    @State private var icon = "wonsign.circle.fill"
     @State private var color = "blue"
+    @State private var currency = "KRW"
     @State private var editingLedger: Ledger?
 
     var body: some View {
         List {
             Section("새 가계부") {
                 TextField("이름", text: $name)
-                TextField("아이콘", text: $icon)
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4), spacing: 16) {
+                    ForEach(ledgerIcons, id: \.self) { iconOption in
+                        Button {
+                            icon = iconOption
+                        } label: {
+                            LedgerIconView(icon: iconOption, color: icon == iconOption ? .accentColor : .secondary)
+                                .font(.title2)
+                                .frame(maxWidth: .infinity, minHeight: 44)
+                                .padding(.vertical, 8)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(icon == iconOption ? Color.accentColor.opacity(0.15) : Color(.secondarySystemBackground))
+                                )
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
                 TextField("색상", text: $color)
+                Picker("통화", selection: $currency) {
+                    ForEach(supportedLedgerCurrencies, id: \.self) { code in
+                        Text(code).tag(code)
+                    }
+                }
                 Button("가계부 추가") {
                     Task {
-                        await appState.addLedger(name: name, icon: icon, color: color)
+                        await appState.addLedger(name: name, icon: icon, color: color, currency: currency)
                         name = ""
                     }
                 }
@@ -27,7 +49,7 @@ struct LedgerManagementView: View {
                         editingLedger = ledger
                     } label: {
                         HStack {
-                            Text("\(ledger.icon) \(ledger.name)")
+                            LedgerLabelView(name: ledger.name, icon: ledger.icon)
                             Spacer()
                             if appState.selectedLedgerName == ledger.name {
                                 Text("선택됨")

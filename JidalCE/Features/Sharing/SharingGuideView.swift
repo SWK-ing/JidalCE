@@ -32,9 +32,9 @@ struct SharingGuideView: View {
         .navigationTitle("캘린더 공유하기")
     }
 
-    private func step(_ icon: String, _ text: String) -> some View {
+    private func step(_ marker: String, _ text: String) -> some View {
         HStack(alignment: .top, spacing: 12) {
-            Text(icon)
+            Text(marker)
             Text(text)
         }
     }

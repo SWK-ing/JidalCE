@@ -16,7 +16,11 @@ struct TransactionDraft {
     var isIncome = false
     var category = "식비"
     var memo = ""
-    var time = Date.now.hhmmString
+    var time = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: .now)
+    }()
     var date = Date()
     var ledgerName = ""
 
